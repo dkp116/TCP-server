@@ -1,7 +1,15 @@
 #include <gtest/gtest.h>
 
-TEST(BasicTest, Works)
+#include <unistd.h>
+
+#include "server.h"
+
+TEST(SocketTest, CreatesSocket)
 {
-    EXPECT_EQ(1 + 1, 2);
+    int socket_fd = create_server_socket();
+
+    EXPECT_NE(socket_fd, -1);
+
+    close(socket_fd);
 }
 

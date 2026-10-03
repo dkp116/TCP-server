@@ -3,6 +3,8 @@
 #include "server.h"
 
 #include <unistd.h>
+#include <netinet/in.h>
+#include <sys/socket.h>
 
 int main()
 {
@@ -15,6 +17,16 @@ int main()
     }
 
     std::cout << "Socket created successfully\n";
+
+    auto server_address = create_server_address(8080);
+
+    auto bind_result = bind(server_socket, reinterpret_cast<sockaddr *>(&server_address), sizeof(server_address));
+
+    int listen_result = listen(server_socket, 4);
+
+    int client_socket = accept(server_socket, nullptr, nullptr);
+
+    hold_connection(client_socket);
 
     close(server_socket);
 
